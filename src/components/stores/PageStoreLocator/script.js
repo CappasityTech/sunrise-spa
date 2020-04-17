@@ -2,12 +2,8 @@ import gql from 'graphql-tag';
 
 const getCoordinates = ({ lat, lng }) => ({ lat: parseFloat(lat), lng: parseFloat(lng) });
 
-const getLocationFromChannel = (channel) => {
-  const latField = channel.customFieldsRaw.find(({ name }) => name === 'latitude');
-  const lngField = channel.customFieldsRaw.find(({ name }) => name === 'longitude');
-  return getCoordinates({ lat: latField.value, lng: lngField.value });
-};
-
+// eslint-disable-next-line
+const getLocationFromChannel = c => getCoordinates({ lat: c.geoLocation.coordinates[1], lng: c.geoLocation.coordinates[0] });
 const getLocationFromPlace = p => getCoordinates({ lat: p.geometry.location.lat(), lng: p.geometry.location.lng() });
 
 function haversineDistance(mk1, mk2) {
