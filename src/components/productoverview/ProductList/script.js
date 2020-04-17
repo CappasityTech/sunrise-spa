@@ -124,9 +124,9 @@ const getProducts = (component) => {
               slug: slug[loc],
               masterVariant: {
                 sku,
+                availability: availability && availability.channels[component.$store.state.channel],
                 images,
                 price,
-                availability,
               },
             },
           },
