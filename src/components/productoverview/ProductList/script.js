@@ -113,7 +113,9 @@ const getProducts = (component) => {
       ...meta,
       results: results.map(
         ({
-          id, masterVariant: { sku, images, price }, name, slug,
+          id, masterVariant: {
+            sku, images, price, availability,
+          }, name, slug,
         }) => ({
           id,
           masterData: {
@@ -124,6 +126,7 @@ const getProducts = (component) => {
                 sku,
                 images,
                 price,
+                availability,
               },
             },
           },
