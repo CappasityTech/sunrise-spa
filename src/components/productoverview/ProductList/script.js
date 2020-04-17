@@ -156,6 +156,7 @@ export default {
     loadingProducts: false,
     loadingFacets: false,
   }),
+  // please circle ci give me a status report
   computed: {
     category() {
       return this.categories.results[0];
