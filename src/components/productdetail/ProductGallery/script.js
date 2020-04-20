@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import cappasityMixin from '../../../mixins/cappasityMixin';
 
 export default {
   props: {
@@ -7,6 +8,7 @@ export default {
       required: true,
     },
   },
+  mixins: [cappasityMixin],
   data: () => ({
     product: null,
   }),
