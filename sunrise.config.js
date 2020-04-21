@@ -12,7 +12,7 @@ export default {
       + ' manage_my_shopping_lists:sunrise-spa'],
     },
     api: process.env.VUE_APP_CT_API_HOST || 'https://api.sphere.io',
-    cappasityOwner: process.env.VUE_APP_CT_CAPPASITY_OWNER,
+    cappasityBearer: process.env.VUE_APP_CT_CAPPASITY_BEARER,
   },
   languages: {
     en: 'English',
