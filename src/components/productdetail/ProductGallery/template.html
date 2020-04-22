@@ -1,7 +1,11 @@
 <div>
-    <div ref="cappasityIntegration" />
+    <div ref="cappasityIntegration"
+         v-bind:style="cappasityIframeStyle"
+         class="cappasity-integration"
+    />
     <ProductZoomer ref="productZoomer"
                    v-if="show"
+                   v-on:chooseThumb="chooseThumbHandler"
                    :base-images="zoomerImages"
                    :base-zoomer-options="zoomerOptions"
                    :key="product.masterData.current.variant.sku"

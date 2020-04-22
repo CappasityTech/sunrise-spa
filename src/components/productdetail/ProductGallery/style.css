@@ -7,3 +7,9 @@
     width: auto;
     margin: 2px;
   }
+  .cappasity-integration {
+    margin-bottom: 1vh;
+    position: relative;
+    width: 100%;
+    padding-bottom: 70%;
+  }
