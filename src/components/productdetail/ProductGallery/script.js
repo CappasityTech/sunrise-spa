@@ -140,21 +140,21 @@ export default {
   apollo: {
     product: {
       query: gql`
-          query ProductGallery($sku: String!) {
-              product(sku: $sku) {
-                  id
-                  masterData {
-                      current {
-                          variant(sku: $sku) {
-                              sku
-                              images {
-                                  url
-                              }
-                          }
-                      }
+        query ProductGallery($sku: String!) {
+          product(sku: $sku) {
+            id
+            masterData {
+              current {
+                variant(sku: $sku) {
+                  sku
+                  images {
+                    url
                   }
+                }
               }
-          }`,
+            }
+          }
+        }`,
       variables() {
         return {
           sku: this.sku,
