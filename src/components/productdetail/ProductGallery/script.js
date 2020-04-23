@@ -10,36 +10,23 @@ export default {
     },
   },
   mounted() {
-    if (config.ct.cappasityBearer && this.sku) {
-      axios({
-        method: 'post',
-        url: 'https://api.cappasity.com/api/files/embed',
-        headers: { Authorization: `Bearer ${config.ct.cappasityBearer}` },
-        data: {
-          data: {
-            id: '1333',
-            type: 'embed',
-            attributes: {
-              width: 100,
-              height: 100,
-              autorun: true,
-              closebutton: false,
-              hidecontrols: false,
-              logo: false,
-              hidefullscreen: false,
-            },
-          },
-        },
-      })
-        .then(({ data: { data: innerHTML } }) => {
+    if (config.ct.cappasityOwner && this.sku) {
+      const uri = encodeURIComponent(`https://3d.cappasity3d.com/u/${config.ct.cappasityOwner}/${this.sku}`);
+
+      axios(`https://api.cappasity3d.com/api/oembed?url=${uri}&format=json&maxwidth=100&maxheight=100`)
+        .then(({ data: { html: innerHTML } }) => {
           const { cappasityIntegration } = this.$refs;
 
           const cappasitiAi = document.createElement('script');
-          cappasitiAi.src = 'https://api.cappasity.com/api/player/cappasity-ai';
+          cappasitiAi.src = 'https://api.cappasity3d.com/api/player/cappasity-ai';
           cappasityIntegration.appendChild(cappasitiAi);
 
           cappasityIntegration.innerHTML = innerHTML;
-          cappasityIntegration.firstChild.style = 'position: absolute;';
+          cappasityIntegration.firstChild.style = `
+            position: absolute;
+            width: 100%;
+            height: 100%;
+          `;
           this.cappasityData = {
             iframe: cappasityIntegration.firstChild,
             loaded: true,
