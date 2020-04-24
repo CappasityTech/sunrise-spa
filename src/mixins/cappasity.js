@@ -3,9 +3,6 @@ import config from '../../sunrise.config';
 
 // request to string iframe html element
 const cappasityRequest = (sku) => {
-  if (!config.ct.cappasityOwner && !sku) {
-    throw Error('without cappasity');
-  }
   const url = `https://3d.cappasity3d.com/u/${config.ct.cappasityOwner}/${sku}`;
   return axios('https://api.cappasity3d.com/api/oembed', { params: { url, format: 'json' } });
 };
@@ -23,6 +20,9 @@ export default {
     },
   }),
   async mounted() {
+    if (!config.ct.cappasityOwner) {
+      this.isLoaded = true;
+    }
     try {
       const { data: { html: innerHTML } } = await cappasityRequest(this.sku);
       const { cappasityIntegration } = this.$refs;
@@ -36,7 +36,8 @@ export default {
             height: 100%;
           `;
       this.isCappasityModel = true;
-    } finally {
+      this.isLoaded = true;
+    } catch (e) {
       this.isLoaded = true;
     }
   },
