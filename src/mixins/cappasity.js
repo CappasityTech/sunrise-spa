@@ -22,6 +22,7 @@ export default {
   async mounted() {
     if (!config.ct.cappasityOwner) {
       this.isLoaded = true;
+      return;
     }
     try {
       const { data: { html: innerHTML } } = await cappasityRequest(this.sku);
