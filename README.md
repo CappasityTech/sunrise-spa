@@ -4,6 +4,7 @@
 [Cappasity](https://www.cappasity.com/) is the first complete SaaS solution for fast production and easy embedding of 3D content into websites, mobile apps, AR & VR, and digital signage. It takes only 3 minutes to create a 3D View and embed it into an online store. Our users see higher conversion rates (10-30% increase), higher dwell time on the product page, fewer returns and customer fewer inquiries.   
 
 The Cappasity integration for commercetools adds interactive 3D images to product pages with matching SKU IDs. Each 3D View will appear in the image gallery, letting your online customers see the item from all sides and zoom in on the details. 
+Demo - https://sunrise-cappasity.netlify.app/en/product/bag/user-uniq-sku
  
 ## Prerequisites
 1. Create products in your online store  
