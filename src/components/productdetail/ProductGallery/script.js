@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import cappasity from '../../../mixins/cappasity';
 
 export default {
   props: {
@@ -7,17 +8,22 @@ export default {
       required: true,
     },
   },
+  mixins: [cappasity],
   data: () => ({
     product: null,
   }),
   computed: {
     productImages() {
-      return this.product.masterData.current.variant.images;
+      const { images } = this.product.masterData.current.variant;
+      return this.isCappasityModel
+        ? [...images, { url: '/img/cappasity3d.jpg', isCapp3D: true }]
+        : images;
     },
     zoomerImages() {
       const imageInfos = this.productImages.map((image, index) => ({
         id: index,
         url: image.url,
+        isCapp3D: image.isCapp3D,
       }));
       return {
         thumbs: imageInfos,
