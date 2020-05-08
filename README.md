@@ -1,67 +1,31 @@
-# SUNRISE as a Single-Page Application
+# How to integrate Cappasity with commercetools 
 
-[![CircleCI](https://circleci.com/gh/commercetools/sunrise-spa.svg?style=svg)](https://circleci.com/gh/commercetools/sunrise-spa)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/40ae8067-e59d-4c71-a232-8f0b222bc291/deploy-status)](https://app.netlify.com/sites/sunrise/deploys)
+## About Cappasity 
+[Cappasity](https://www.cappasity.com/) is the first complete SaaS solution for fast production and easy embedding of 3D content into websites, mobile apps, AR & VR, and digital signage. It takes only 3 minutes to create a 3D View and embed it into an online store. Our users see higher conversion rates (10-30% increase), higher dwell time on the product page, fewer returns and customer fewer inquiries.   
 
-## Demo
-https://sunrise.netlify.com/
+The Cappasity integration for commercetools adds interactive 3D images to product pages with matching SKU IDs. Each 3D View will appear in the image gallery, letting your online customers see the item from all sides and zoom in on the details. 
+ 
+## Prerequisites
+1. Create products in your online store  
+Each product you want to integrate has its own inner ID in the online store and one or more corresponding SKU codes. Sometimes a product also has variants with their own IDs and SKU numbers.
+2. Set up a Cappasity account 
+Sign up at [3d.cappasity.com](https://3d.cappasity.com/register) to create your Cappasity account. Visit our website [cappasity.com](https://cappasity.com/) to download the Easy 3D Scan software, read the instructions and create a 3D View yourself or find a Cappasity [certified photo partner](https://cappasity.com/photography-finder/) who will do this for you. 
+3. Create Cappasity 3D Views  
+Using the Easy 3D Scan, create and upload 3D Views to your Cappasity account. Fill in the corresponding SKU IDs for the 3D Views that you want to synchronize. Each resulting model has its inner Cappasity View ID. You need these IDs to generate an iFrame code for the player.
+ 
+## Integration into commercetools
+To quickly integrate Cappasity 3D Views into your product pages, an extra GET request must be sent to the Cappasity API on the client side. Refer to this [code](https://github.com/CappasityTech/sunrise-spa/commit/56b12a510b6a1dabc5488d44eb80168f49bdfdb3) to see an example of such an integration.  
+To implement the integration, complete the following steps:  
+1. After rendering the product page, send a GET request to the Cappasity API with the product SKU ID and your Cappasity username.   
+2. Then, if the product exists on the Cappasity platform, you will receive JSON data with the product info.  
+3. Add the following new HTML elements to the page:  
+- iframe (string html from response)
+- `` <script async src=”https://api.cappasity.com/api/player/cappasity-ai” /> ``
+- A button for switching between Cappasity 3D View and your product images. [Here](https://www.dropbox.com/s/eofrt5m9rlvx09o/Cappasity_3DIcons.zip?dl=0) you may find the standard 3D button. 
+- If the SKU ID wasn’t found on your Cappasity account, you will receive a 404 error.
 
-## Deploy it on Netlify
-[Netlify](https://www.netlify.com/) allows you to clone the repository, configure the project with your own data and deploy it, all in one click.
+Alternatively, you can use our [PHP SDK](https://github.com/CappasityTech/Cappasity-PHP-SDK) for even more convenient integration, or order a turnkey solution for your online store by Cappasity. Contact us for more details at [info@cappasity.com](mailto:info@cappasity.com).
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/commercetools/sunrise-spa)
-
-In order to deploy SUNRISE SPA with a different commercetools project than the default, follow the instructions described in the section [How to use your project data](#how-to-use-your-project-data) to obtain your credentials and use them to configure your site in Netlify.
-
-## Run it locally 
-
-Steps   | with [Yarn](https://yarnpkg.com/)  | with [NPM](https://www.npmjs.com/) |
-------- | ---------------------------------- | ---------------------------------- |
-Install | `yarn install`                     | `npm install`                      |
-Run     | `yarn serve`                       | `npm run serve`                    |
-
-
-## How to use your own project data
-SUNRISE SPA comes with some read-only data set by default that you can use. But if you need to use a different set of data or to manage the project via [Merchant Center](https://mc.commercetools.com/), then you'll need to connect SUNRISE SPA to your own commercetools project.
-
-Once you have created your commercetools project and populated it with data, follow the next steps to connect to it.
-
-### 1. Create an API client for a SPA
-In the [Merchant Center](https://mc.commercetools.com/), select your project and go to the [New API Client](https://mc.commercetools.com/sunrise-spa-ci/settings/developer/api-clients/now) section (`Settings` > `Developer Settings` > `API Clients` > `Create New API Client`). Enter a descriptive name for your new API client and select the template `Mobile & single-page application client`. Once you have filled the form, submit it by clicking on `Create API Client`, you should now be able to see your project credentials. Don't close the window yet!
-
-> **:warning: Always use an API client suited for single-page applications (SPA), as your credentials will be publicly accessible through the browser.**
-
-### 2. Configure SUNRISE with your API client
-Below the credentials, you should see a dropdown with different technologies: select `Sunrise SPA` and click on the download button. This will download a file named `.env.local` with your credentials, which you should place in the root folder of your SUNRISE SPA project.
-
-> **:warning: Make sure the downloaded file is called exactly `.env.local`, as browsers may remove the initial dot and apply further modifications to the filename.**
-
-This will set up the necessary environment variables required to run SUNRISE SPA.
-
-## Development tips
-
-### Add any queried fields to the mutation
-When executing a mutation (e.g. to update the active cart), we receive as a response the updated resource, which Apollo then uses to update the cached data in Apollo store. It is thanks to this cache that all components are able to display the same information, even after mutations. 
-
-But when we under-fetch in the mutation and fail to update some cached fields we are displaying in a component, this component will not be updated at all with any new data. To avoid that, make sure to add any field you are querying in the mutation. The update mutations are found in the methods `updateMyCart` and `updateMyCustomer`.
-
-Related issue: https://github.com/apollographql/apollo-client/issues/3267
-
-
-## Run tests
-The project has unit and end-to-end tests covering each functionality. Unit tests will run out of the box, but end-to-end tests require some further configuration, explained in the section below.
-
-Test   | with [Yarn](https://yarnpkg.com/)  | with [NPM](https://www.npmjs.com/) |
-------- | ---------------------------------- | ---------------------------------- |
-Unit | `yarn test:unit`                     | `npm run test:unit`                      |
-End-to-end     | `yarn test:e2e`                       | `npm run test:e2e`                    |
-
-### Configure end-to-end tests
-In order to continue, it is necessary that you have full control over the commercetools project associated with SUNRISE.
-
-Follow the same steps explained in the section [How to use your own project data](#how-to-use-your-own-project-data) to create a second API client, but this time create it with the `Admin client` template instead. Then add your new client ID and secret as the following environment variables (e.g. in `.env.local` file): 
-
-```shell
-CYPRESS_CT_CLIENT_ID=<your client ID>
-CYPRESS_CT_CLIENT_SECRET=<your client secret>
-```
+## Support 
+If you have any questions, please send your inquiries to [support@cappasity.com](mailto:support@cappasity.com).
+###### &copy; Copyright 2020 Cappasity Inc. All rights reserved.
